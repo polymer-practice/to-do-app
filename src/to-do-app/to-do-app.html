@@ -14,12 +14,12 @@
     </style>
     <form-task text-label="Texto Label Real" input-placeholder="Texto Placeholder Real"></form-task>
     <task-repository id="repository" offset="[[offset]]" limit="[[limit]]"></task-repository>
-    <task-list
+    <list-task
         task-list="[[pageTask]]"
         pending="_setPending"
         done="_setDone"
         cancel="_setCancel"
-        ></task-list>
+        ></list-task>
     
     <console-messages>
         <div slot="body">
@@ -47,7 +47,7 @@
           },
           taskList: {
             type: Array,
-            value: taskList
+            value: []
           }
         };
       }
