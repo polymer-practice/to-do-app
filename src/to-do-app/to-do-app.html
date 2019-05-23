@@ -16,6 +16,18 @@
     <task-repository id="repository" offset="[[offset]]" limit="[[limit]]"></task-repository>
     <list-task task-list="[[taskList]]"></list-task>
 
+    <button id="first" on-click="_buttonFirstPage">Primera Página</button>
+    <button id="last" on-click="_buttonLastPage">última Página</button>
+    <button id="_nextPage" on-click="_nextPage">Next page</button>
+    <button id="_prevPage" on-click="_prevPage">Prev page</button>
+
+    <select name="" id="" value="">
+      <option value="5" selected>1</option>
+      <option value="10">2</option>
+      <option value="15">3</option>
+      <option value="20">4</option>
+    </select>
+
     <console-messages>
       <div slot="body">
         <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui ratione, ipsam quidem sit neque non voluptatem
@@ -48,6 +60,10 @@
             type: Number,
             value: 0
           },
+          total:{
+            type: Number,
+            value: 0
+          },
           taskList: {
             type: Array,
             value: []
@@ -61,7 +77,7 @@
 
       pageEvent(event) {
         const page = event.detail.page;
-        const total = event.detail.total;
+        this.total = event.detail.total;
         const currentPage =  Math.ceil(event.detail.offset/event.detail.limit);
 
         this.page = currentPage;
@@ -80,8 +96,35 @@
         let repository = this.shadowRoot.querySelector('#repository');
         repository.removeEventListener('page-event', this.pageEvent);
       }
-    }
 
+      _buttonFirstPage(event) {
+        this.page = 0
+        console.log(this.page);
+      }
+
+      _buttonLastPage(event) {
+        let totalPage = Math.ceil(this.total/this.limit)
+        console.log(totalPage);
+      }
+
+      _nextPage(){
+        let totalPage = Math.ceil(this.total/this.limit)
+        if(totalPage === this.page){
+          return false
+        }else{
+            this.page = this.page + 1;
+            console.log(this.page)
+          }
+      }
+    
+
+      _prevPage(){
+        if( this.page > 0 ){
+          this.page = this.page - 1;
+          console.log(this.page);
+      }
+    }
+  }
     window.customElements.define(ToDoApp.is, ToDoApp);
   </script>
-</dom-module>
+  </dom-module>
