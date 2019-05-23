@@ -1,0 +1,58 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/form-task/form-task.html">
+<link rel="import" href="../../bower_components/console-messages/console-messages.html">
+<link rel="import" href="../../bower_components/list-task/list-task.html">
+<link rel="import" href="../../bower_components/task-repository/task-repository.html">
+
+
+<dom-module id="to-do-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <form-task text-label="Texto Label Real" input-placeholder="Texto Placeholder Real"></form-task>
+    <task-repository id="repository" offset="[[offset]]" limit="[[limit]]"></task-repository>
+    <task-list
+        task-list="[[pageTask]]"
+        pending="_setPending"
+        done="_setDone"
+        cancel="_setCancel"
+        ></task-list>
+    
+    <console-messages>
+        <div slot="body">
+            <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui ratione, ipsam quidem sit neque non voluptatem nemo! Praesentium, tempore soluta libero, impedit eos voluptatibus eligendi quia officia, architecto delectus hic.</p>
+          </div>
+      </console-messages>
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class ToDoApp extends Polymer.Element {
+      static get is() { return 'to-do-app'; }
+      static get properties() {
+        return {
+          offset:{
+            type: Number,
+            value: 0
+          },
+          limit:{
+            type: Number,
+            value: 5
+          },
+          taskList: {
+            type: Array,
+            value: taskList
+          }
+        };
+      }
+    }
+
+    window.customElements.define(ToDoApp.is, ToDoApp);
+  </script>
+</dom-module>
