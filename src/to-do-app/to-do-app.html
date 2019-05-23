@@ -14,7 +14,7 @@
     </style>
     <form-task text-label="Texto Label Real" input-placeholder="Texto Placeholder Real"></form-task>
     <task-repository id="repository" offset="[[offset]]" limit="[[limit]]"></task-repository>
-    <task-list task-list=[[taskList]]></task-list>
+    <list-task task-list="[[taskList]]"></list-task>
 
     <console-messages>
       <div slot="body">
@@ -44,6 +44,10 @@
             type: Number,
             value: 5
           },
+          page: {
+            type: Number,
+            value: 0
+          },
           taskList: {
             type: Array,
             value: []
@@ -55,27 +59,26 @@
         super();
       }
 
+      pageEvent(event) {
+        const page = event.detail.page;
+        const total = event.detail.total;
+        const currentPage =  Math.ceil(event.detail.offset/event.detail.limit);
+
+        this.page = currentPage;
+        this.set('taskList', page);
+        this.limit = event.detail.limit;
+      }
+
       connectedCallback() {
         super.connectedCallback();
-        this.taskList = [{
-            key: 0,
-            title: 'To do the weekly shopping',
-            canceled: false,
-            done: false
-          },
-          {
-            key: 1,
-            title: 'Call the dentist',
-            canceled: true,
-            done: false
-          },
-          {
-            key: 2,
-            title: 'Teach Polymer',
-            canceled: false,
-            done: true
-          }]
-          console.log('my-element created!', this.taskList);
+        let repository = this.shadowRoot.querySelector('#repository');
+        repository.addEventListener('page-event', this.pageEvent.bind(this));
+      }
+
+      disconnectedCallback() {
+        super.disconnectedCallback();
+        let repository = this.shadowRoot.querySelector('#repository');
+        repository.removeEventListener('page-event', this.pageEvent);
       }
     }
 
