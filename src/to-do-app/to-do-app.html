@@ -14,18 +14,15 @@
     </style>
     <form-task text-label="Texto Label Real" input-placeholder="Texto Placeholder Real"></form-task>
     <task-repository id="repository" offset="[[offset]]" limit="[[limit]]"></task-repository>
-    <list-task
-        task-list="[[pageTask]]"
-        pending="_setPending"
-        done="_setDone"
-        cancel="_setCancel"
-        ></list-task>
-    
+    <task-list task-list=[[taskList]]></task-list>
+
     <console-messages>
-        <div slot="body">
-            <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui ratione, ipsam quidem sit neque non voluptatem nemo! Praesentium, tempore soluta libero, impedit eos voluptatibus eligendi quia officia, architecto delectus hic.</p>
-          </div>
-      </console-messages>
+      <div slot="body">
+        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui ratione, ipsam quidem sit neque non voluptatem
+          nemo! Praesentium, tempore soluta libero, impedit eos voluptatibus eligendi quia officia, architecto delectus
+          hic.</p>
+      </div>
+    </console-messages>
   </template>
 
   <script>
@@ -34,14 +31,16 @@
      * @polymer
      */
     class ToDoApp extends Polymer.Element {
-      static get is() { return 'to-do-app'; }
+      static get is() {
+        return 'to-do-app';
+      }
       static get properties() {
         return {
-          offset:{
+          offset: {
             type: Number,
             value: 0
           },
-          limit:{
+          limit: {
             type: Number,
             value: 5
           },
@@ -50,6 +49,33 @@
             value: []
           }
         };
+      }
+
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+        this.taskList = [{
+            key: 0,
+            title: 'To do the weekly shopping',
+            canceled: false,
+            done: false
+          },
+          {
+            key: 1,
+            title: 'Call the dentist',
+            canceled: true,
+            done: false
+          },
+          {
+            key: 2,
+            title: 'Teach Polymer',
+            canceled: false,
+            done: true
+          }]
+          console.log('my-element created!', this.taskList);
       }
     }
 
